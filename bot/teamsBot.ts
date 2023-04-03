@@ -22,20 +22,25 @@ export class TeamsBot extends TeamsActivityHandler {
     this.onMessage(async (context, next) => {
       console.log("Running with Message Activity.");
 
-      let txt = context.activity.text;
+      let prompt = context.activity.text;
       const removedMentionText = TurnContext.removeRecipientMention(context.activity);
       if (removedMentionText) {
         // Remove the line break
-        txt = removedMentionText.toLowerCase().replace(/\n|\r/g, "").trim();
+        prompt = removedMentionText.toLowerCase().replace(/\n|\r/g, "").trim();
       }
 
-      const response = await api.sendMessage(txt, {
+      console.log("prompt: ", prompt);
+
+      const response = await api.sendMessage(prompt, {
         parentMessageId
       });
 
+      const reply = response.text;
       parentMessageId = response.id;
 
-      await context.sendActivity(response.text);
+      console.log("reply: ", reply);
+
+      await context.sendActivity(reply);
 
       // By calling next() you ensure that the next BotHandler is run.
       await next();

@@ -47,14 +47,16 @@ export class TeamsBot extends TeamsActivityHandler {
     });
 
     this.onMembersAdded(async (context, next) => {
-      const membersAdded = context.activity.membersAdded;
-      for (let cnt = 0; cnt < membersAdded.length; cnt++) {
-        if (membersAdded[cnt].id) {
-          const card = AdaptiveCards.declareWithoutData(rawWelcomeCard).render();
-          await context.sendActivity({ attachments: [CardFactory.adaptiveCard(card)] });
-          break;
-        }
-      }
+      // const membersAdded = context.activity.membersAdded;
+      // for (let cnt = 0; cnt < membersAdded.length; cnt++) {
+      //   if (membersAdded[cnt].id) {
+      //     const card = AdaptiveCards.declareWithoutData(rawWelcomeCard).render();
+      //     await context.sendActivity({ attachments: [CardFactory.adaptiveCard(card)] });
+      //     break;
+      //   }
+      // }
+      const welcomeMessage = "你好，欢迎体验ChatGPT聊天机器人，你可以输入你感兴趣的任何问题向我提问。";
+      await context.sendActivity(welcomeMessage);
       await next();
     });
   }
